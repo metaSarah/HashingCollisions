@@ -14,3 +14,5 @@ def hash_collision(k):
     y = b'\x00'
     
     return( x, y )
+
+# test commit
