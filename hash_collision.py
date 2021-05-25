@@ -34,35 +34,44 @@ def hash_collision(k):
    
     #Collision finding code goes here
     
-    x_rand = os.urandom(k)
-    
+    x_rand = os.urandom(5)
     x_sha = hashlib.sha256(x_rand).hexdigest()
+    x_K = x_sha[-k:]
     
     # x_bits = str(bin(int(x_sha, 16)))[-(k*4):].zfill(k*4)
     
     y_sha = None
     y_rand = None
     
-    x_K = x_sha[-k:]
+    memoization = {}
     
     while y_rand == None:
     
-        random = os.urandom(k)
+        random = os.urandom(5)
         y_sha = hashlib.sha256(random).hexdigest()
         y_K = y_sha[-k:]
         
-        if y_K == x_K:
+        if y_K == x_K and random != x_rand:
             y_rand = random
             break
+        
+        elif y_sha in memoization:
+            y_rand = random
+            x_rand =  memoization[y_sha]
+        
+        else:
+            memoization[y_sha] = random
+        
+        
 
     return x_rand, y_rand       
 
 
-x_rand, y_rand = hash_collision(5)
-
-print(x_rand)
-print(y_rand)
-
-print(hashlib.sha256(x_rand).hexdigest())
-print(hashlib.sha256(y_rand).hexdigest())
+# x_rand, y_rand = hash_collision(20)
+#
+# print(x_rand)
+# print(y_rand)
+#
+# print(hashlib.sha256(x_rand).hexdigest())
+# print(hashlib.sha256(y_rand).hexdigest())
 # print(chr(65)) # prints 'A'
