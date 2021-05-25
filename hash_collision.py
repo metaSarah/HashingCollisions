@@ -35,8 +35,8 @@ def hash_collision(k):
     #Collision finding code goes here
     
     x_rand = os.urandom(k)
-    # x_sha = hashlib.sha256(x_rand).hexdigest()
-    x_sha = hashlib.sha256(x_rand).digest()
+    x_sha = hashlib.sha256(x_rand).hexdigest()
+    # x_sha = hashlib.sha256(x_rand).digest()
     x_K = x_sha[-k:]
     
     # x_bits = str(bin(int(x_sha, 16)))[-(k*4):].zfill(k*4)
@@ -49,8 +49,8 @@ def hash_collision(k):
     while y_rand == None:
     
         random = os.urandom(k)
-        # y_sha = hashlib.sha256(random).hexdigest()
-        y_sha = hashlib.sha256(random).digest()
+        y_sha = hashlib.sha256(random).hexdigest()
+        # y_sha = hashlib.sha256(random).digest()
         y_K = y_sha[-k:]
         
         
@@ -71,14 +71,14 @@ def hash_collision(k):
     return x_rand, y_rand       
 
 
-# x_rand, y_rand = hash_collision(3)
+x_rand, y_rand = hash_collision(10)
+
+print(x_rand)
+print(y_rand)
+# #
+print(hashlib.sha256(x_rand).hexdigest())
+print(hashlib.sha256(y_rand).hexdigest())
 #
-# print(x_rand)
-# print(y_rand)
-# # #
-# print(hashlib.sha256(x_rand).hexdigest())
-# print(hashlib.sha256(y_rand).hexdigest())
-#
-# print(hashlib.sha256(x_rand).digest())
-# print(hashlib.sha256(y_rand).digest())
+print(hashlib.sha256(x_rand).digest())
+print(hashlib.sha256(y_rand).digest())
 # print(chr(65)) # prints 'A'
