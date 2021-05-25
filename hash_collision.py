@@ -34,57 +34,35 @@ def hash_collision(k):
    
     #Collision finding code goes here
     
-    # generate random var x
-    x = random.getrandbits(k) # Returns a non-negative integer with k random bits.
-    
-    # os.urandom
-    
-    # x_str = ''.join((random.choice(string.ascii_lowercase) for x in range(k)))
     x_rand = os.urandom(k)
     
-    # x_utf = str(x_str).encode('utf-8') # convert x to utf-8 byte format
-    # x_utf = x_str.encode('utf-8') 
-    # x_sha = hashlib.sha256(x_utf).hexdigest()
     x_sha = hashlib.sha256(x_rand).hexdigest()
     
-    
-    # x = b'\x00'
+    # x_bits = str(bin(int(x_sha, 16)))[-(k*4):].zfill(k*4)
     
     y_sha = None
-    # y_utf = None
     y_rand = None
     
-    while y_sha == None:
-        y_rand = os.urandom(k)
-        # result = hashlib.sha256(y_utf).hexdigest()
-        result = hashlib.sha256(y_rand).hexdigest()
-        
-        if result[-k:] == x_sha[-k:]:
-            y_sha = result
-            break 
-        
+    x_K = x_sha[-k:]
     
-    # for i in range(100000000):
-        # y_utf = str(i).encode('utf-8')
-        # result = hashlib.sha256(y_utf).hexdigest()
-        #
-        # if result[-k:] == x_sha[-k:]:
-            # y_sha = result
-            # break
+    while y_rand == None:
     
-    # return x_utf, y_utf, x_sha, y_sha
-    # return x_rand, y_rand, x_sha, y_sha
-    return x_rand, y_rand
+        random = os.urandom(k)
+        y_sha = hashlib.sha256(random).hexdigest()
+        y_K = y_sha[-k:]
+        
+        if y_K == x_K:
+            y_rand = random
+            break
+
+    return x_rand, y_rand       
 
 
-# x_utf, y_utf, x_sha, y_sha = hash_collision(4)
-# x_rand, y_rand, x_sha, y_sha = hash_collision(4)
-x_rand, y_rand = hash_collision(4)
+x_rand, y_rand = hash_collision(5)
 
-# print(x_rand)
-# print(y_rand)
-# print(x_sha)
-# print(y_sha)
-# print(hashlib.sha256(x_utf).hexdigest())
-# print(hashlib.sha256(y_utf).hexdigest())
+print(x_rand)
+print(y_rand)
+
+print(hashlib.sha256(x_rand).hexdigest())
+print(hashlib.sha256(y_rand).hexdigest())
 # print(chr(65)) # prints 'A'
