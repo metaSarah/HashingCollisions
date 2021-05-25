@@ -26,7 +26,8 @@ def hash_collision(k):
     x_str = ''.join((random.choice(string.ascii_lowercase) for x in range(k)))
     
     
-    x_utf = str(x_str).encode('utf-8') # convert x to utf-8 byte format
+    # x_utf = str(x_str).encode('utf-8') # convert x to utf-8 byte format
+    x_utf = x_str.encode('utf-8') 
     x_sha = hashlib.sha256(x_utf).hexdigest()
     
     
@@ -35,7 +36,7 @@ def hash_collision(k):
     y_sha = None
     y_utf = None
     
-    for i in range(10000000):
+    for i in range(100000000):
         y_utf = str(i).encode('utf-8')
         result = hashlib.sha256(y_utf).hexdigest()
         
@@ -43,10 +44,13 @@ def hash_collision(k):
             y_sha = result
             break
     
+    # return x_utf, y_utf, x_sha, y_sha
     return x_utf, y_utf
 
 
-x, y = hash_collision(5)
-print(x)
-print(y)
+# x_utf, y_utf, x_sha, y_sha = hash_collision(5)
+# print(x_sha)
+# print(y_sha)
+# print(x_utf)
+# print(y_utf)
 # print(chr(65)) # prints 'A'
