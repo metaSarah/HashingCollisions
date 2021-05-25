@@ -2,6 +2,7 @@ import hashlib
 import os
 
 import random
+import string
 
 """ hash_collision(k) returns x and y,
 such that the SHA256(x) and SHA256(y) match on their final k bits. 
@@ -21,7 +22,11 @@ def hash_collision(k):
     
     # generate random var x
     x = random.getrandbits(k) # Returns a non-negative integer with k random bits.
-    x_utf = str(x).encode('utf-8') # convert x to utf-8 byte format
+    
+    x_str = ''.join((random.choice(string.ascii_lowercase) for x in range(k)))
+    
+    
+    x_utf = str(x_str).encode('utf-8') # convert x to utf-8 byte format
     x_sha = hashlib.sha256(x_utf).hexdigest()
     
     
