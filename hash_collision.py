@@ -1,6 +1,6 @@
 import hashlib
 import os
-
+import math
 import random
 import string
 
@@ -27,16 +27,26 @@ is already properly formatted.
 def hash_collision(k):
     if not isinstance(k,int):
         print( "hash_collision expects an integer" )
-        return( b'\x00',b'\x00' )
+        return( b'\x00',b'\x00' ) # converts hex to binary
     if k < 0:
         print( "Specify a positive number of bits" )
         return( b'\x00',b'\x00' )
    
     #Collision finding code goes here
     
-    x_rand = os.urandom(3)
-    x_sha = hashlib.sha256(x_rand).hexdigest()
-    x_K = x_sha[-k:]
+    x_rand = os.urandom(k) # generate random string of k bytes
+
+    # convert random string x to sha256 in hex form
+    x_sha = hashlib.sha256(x_rand).hexdigest() 
+    
+    # convert hex value to int
+    x_sha_to_int = int(x_sha, base=16)
+
+    # convert int to binary str
+    x_bin_str = str(bin(x_sha_to_int))[2:]
+
+    # x_K = x_sha[-k:] 
+    x_K = x_bin_str[-k:] # get last K bits
     
     # x_bits = str(bin(int(x_sha, 16)))[-(k*4):].zfill(k*4)
     
@@ -47,9 +57,19 @@ def hash_collision(k):
     
     while y_rand == None:
     
-        random = os.urandom(3)
-        y_sha = hashlib.sha256(random).hexdigest()
-        y_K = y_sha[-k:]
+        random = os.urandom(k) # generate random string of k bytes
+
+        # convert random string y to sha256 in hex form
+        y_sha = hashlib.sha256(random).hexdigest() 
+
+        # convert hex value to int
+        y_sha_to_int = int(y_sha, base=16)
+
+        # convert int to binary str
+        y_bin_str = str(bin(y_sha_to_int))[2:]
+
+        # get last K bits
+        y_K = y_bin_str[-k:]
         
         
         if y_K == x_K and random != x_rand:
@@ -69,9 +89,9 @@ def hash_collision(k):
     return x_rand, y_rand       
 
 
-x_rand, y_rand = hash_collision(10)
+x_rand, y_rand = hash_collision(20)
 
-print(x_rand)
-print(y_rand)
-print(hashlib.sha256(x_rand).hexdigest())
-print(hashlib.sha256(y_rand).hexdigest())
+# print(x_rand)
+# print(y_rand)
+# print(hashlib.sha256(x_rand).hexdigest())
+# print(hashlib.sha256(y_rand).hexdigest())
