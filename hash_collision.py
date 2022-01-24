@@ -34,7 +34,7 @@ def hash_collision(k):
    
     #Collision finding code goes here
     
-    x_rand = os.urandom(k)
+    x_rand = os.urandom(3)
     x_sha = hashlib.sha256(x_rand).hexdigest()
     x_K = x_sha[-k:]
     
@@ -47,7 +47,7 @@ def hash_collision(k):
     
     while y_rand == None:
     
-        random = os.urandom(k)
+        random = os.urandom(3)
         y_sha = hashlib.sha256(random).hexdigest()
         y_K = y_sha[-k:]
         
